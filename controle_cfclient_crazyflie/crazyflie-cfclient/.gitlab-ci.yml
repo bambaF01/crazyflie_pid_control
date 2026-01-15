@@ -1,0 +1,48 @@
+default:
+    tags:
+        - ci.inria.fr
+        - linux
+        - small
+
+stages:
+    - update
+
+.config: &config
+    - apt-get install -y git
+    - git fetch origin
+    - git config user.email "adrien.guenard@loria.fr"
+    - git config user.name "adrien.guenard"
+    - git remote set-url --push origin ${REPO_URL}
+    - git remote add -t master cfclient-bc ${CFCLIENT_URL}
+    - git remote set-url --push cfclient-bc no-push
+
+fetch_update:
+    stage: update
+    image: bitcraze/builder
+    variables:
+        REPO_URL: https://gitlab-ci-token:${CI_PROJECT_TOKEN}@gitlab.inria.fr/creativlab/drones/crazyflie/crazyflie-cfclient.git
+        CFLIB_URL: https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.inria.fr/creativlab/drones/crazyflie/crazyflie-cflib.git
+        CFCLIENT_URL: https://github.com/bitcraze/crazyflie-clients-python
+        GIT_DEPTH: 0
+    script:
+        - apt-get update
+        - *config
+        - git fetch cfclient-bc
+        - git checkout --track origin/$CI_COMMIT_BRANCH
+        - git branch -a
+        - git remote -v
+        - git merge cfclient-bc/master
+        - echo "merged !"
+        - git log -n 5
+        - echo "inria_cflib installing ..."
+        - git clone ${CFLIB_URL} cflib-inria-directory
+        - cd cflib-inria-directory
+        - pip3 install -e .[dev]
+        - cd ..
+        - rm -fr cflib-inria-directory
+        - echo "cfclient installing ..."
+        - pip3 install -e .[dev]
+        - which cfclient
+        - echo "cfclient installed !"
+        - git push origin -o ci.skip $CI_COMMIT_BRANCH
+        - echo "pushed !"

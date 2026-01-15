@@ -1,0 +1,8 @@
+[submodule "crazyflie-firmware"]
+	path = crazyflie-firmware
+	url = https://github.com/llanesc/crazyflie-firmware.git
+	branch = sitl-release
+[submodule "crazyflie-lib-python"]
+	path = crazyflie-lib-python
+	url = https://github.com/llanesc/crazyflie-lib-python.git
+	branch = sitl-release
