@@ -47,7 +47,7 @@ Image PID :
 
 Video de demonstration PID :
 
-`CrazySim/crazysim_pid.mp4`
+[Voir la video CrazySim PID](CrazySim/crazysim_pid.mp4)
 
 ---
 
