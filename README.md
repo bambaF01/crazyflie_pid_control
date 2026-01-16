@@ -17,13 +17,14 @@ Objectif : observer sans risque l'effet du Kp sur la stabilite en hauteur. Le si
    ```
 3. Garde ce terminal ouvert (le simulateur tourne tant que la commande tourne).
 
-### 2) Ouvrir cfclient/qfclient et se connecter au drone simule
+### 2) Ouvrir cfclient et se connecter au drone simule
 1. Ouvre un autre terminal et lance le client :
    ```bash
    cfclient
    ```
-2. Active le mode SITL dans le client, puis clique sur Scan/Connect.
-3. La connexion doit se faire avec l'URI `udp://0.0.0.0:19850`.
+2. Active le mode SITL dans la fenetre de connexion : coche la case **SITL** (ou "Simulator") en haut de la liste des interfaces.
+3. Clique sur **Scan**, puis **Connect**.
+4. La connexion doit se faire avec l'URI `udp://0.0.0.0:19850`.
 
 Image de connexion :
 
