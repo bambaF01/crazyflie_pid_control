@@ -74,7 +74,7 @@ Drone Crazyflie :
 
 ### 3) Se connecter au drone via radio
 1. Dans cfclient, clique sur Scan.
-2. Selectionne l'URI radio detecte.
+2. Selectionne l'URI radio detecté.
 3. Clique sur Connect.
 
 ![Connexion radio](controle_cfclient_crazyflie/connexion_radio.png)
@@ -97,7 +97,7 @@ Les actions ci-dessous suivent le profil `drone_PID_kp` :
 
 ### 6) Modifier les parametres PID dans le client
 1. Ouvre l'onglet PID ou Tuning.
-2. Change les gains (Kp, Ki, Kd) et observe la stabilite.
+2. Change les gains (Kp, Ki, Kd) et observe la stabilité.
 3. Sauvegarde les valeurs si necessaire.
 
 ---
@@ -126,7 +126,7 @@ Image manette :
 ![Manette](controle_cfclient_crazyflie/manette.png)
 
 ### 3) Observer l'effet de Kp sur l'axe Z
-Utilise Triangle pour repeter la sequence et comparer la stabilite.
+Utilise Triangle pour repeter la sequence et comparer la stabilité.
 
 Videos a ajouter :
 - `video_Kp_min.video` : Kp minimal (1).
