@@ -128,10 +128,10 @@ Image manette :
 ### 3) Observer l'effet de Kp sur l'axe Z
 Utilise Triangle pour repeter la sequence et comparer la stabilité.
 
-Videos a ajouter :
-- `video_Kp_min.video` : Kp minimal (1).
-- `video_Kp_max.video` : Kp maximal (10).
-- `video_Kp.video` : Kp normal (5).
+Valeurs testées :
+-  Kp minimal (1).
+-  Kp maximal (10).
+-  Kp normal (5).
 
 ---
 
