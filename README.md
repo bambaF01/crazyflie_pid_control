@@ -133,7 +133,7 @@ Valeurs testées :
 -  Kp maximal (10).
 -  Kp normal (5).
 
-[Voir la video du test réel du PID sur le drone](video_drone.mp4)
+[Voir la video du test du PID sur le drone](video_drone.mp4)
 
 ---
 
