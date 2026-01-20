@@ -48,7 +48,7 @@ Image PID :
 
 Video de demonstration PID :
 
-[Voir la video CrazySim PID](CrazySim/crazysim_pid.mp4)
+https://github.com/gtfactslab/Llanes_ICRA2024/assets/40842920/b865127c-1b0d-4f49-941d-e57aecda9a54
 
 ---
 
