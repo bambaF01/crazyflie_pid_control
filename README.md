@@ -135,7 +135,6 @@ Valeurs testées :
 
 [Voir la video du test réel du PID sur le drone](video_drone.mp4)
 
-https://drive.google.com/file/d/1CLTN1z4QH8yqryR2smzot-7x_uRRfrpk/view
 ---
 
 ## Synthese finale : effet du Kp sur l'axe Z
