@@ -134,6 +134,7 @@ Valeurs testées :
 -  Kp normal (5).
 
 [Voir la video du test réel du PID sur le drone](CrazySim/video_crazyflie.mp4)
+
 ---
 
 ## Synthese finale : effet du Kp sur l'axe Z
