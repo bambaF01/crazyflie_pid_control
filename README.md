@@ -134,6 +134,7 @@ Valeurs testées :
 -  Kp normal (5).
 
 [Voir la video du test réel du PID sur le drone](video_drone.mp4)
+https://github.com/bambaF01/crazyflie_pid_control/blob/main/video_drone.mp4
 
 ---
 
