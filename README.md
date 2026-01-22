@@ -48,7 +48,7 @@ Image PID :
 
 Video de demonstration PID :
 
-<video src="https://github.com/gtfactslab/Llanes_ICRA2024/assets/40842920/b865127c-1b0d-4f49-941d-e57aecda9a54" controls width="600"></video>
+https://github.com/gtfactslab/Llanes_ICRA2024/assets/40842920/b865127c-1b0d-4f49-941d-e57aecda9a54
 
 ---
 
@@ -133,7 +133,7 @@ Valeurs testées :
 -  Kp maximal (10).
 -  Kp normal (5).
 
-<video src="video_drone.mp4" controls width="600"></video>
+[![Video test PID drone](video_drone_thumb.png)](video_drone.mp4)
 
 ---
 
