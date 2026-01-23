@@ -36,12 +36,15 @@ import logging
 import time
 import sys
 import threading
+import csv
+import os
 
 import pygame
 
 import cflib.crtp
 from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
+from cflib.crazyflie.log import LogConfig
 from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 
@@ -65,6 +68,57 @@ current_velocity_yaw = 0.0
 # Variables pour contrôler le PID de position verticale
 pid_position_kp = 5.0  # Valeur par défaut du gain proportionnel position verticale
 pid_position_step = 0.5  # Pas d'ajustement pour la position
+
+# Logging hauteur vs temps pour chaque Kp
+height_log = []
+log_start_time = None
+height_log_config = None
+
+
+def on_height_log(timestamp, data, logconf) -> None:
+    """Callback log de hauteur pour tracer hauteur(t) selon Kp."""
+    global height_log
+    if log_start_time is None:
+        return
+    height = data.get('stateEstimate.z')
+    if height is None:
+        return
+    t = time.monotonic() - log_start_time
+    height_log.append((t, height, pid_position_kp))
+
+
+def setup_height_logging(scf) -> None:
+    """Active le logging de la hauteur (stateEstimate.z)."""
+    global log_start_time, height_log_config
+    try:
+        lg = LogConfig(name='HeightLog', period_in_ms=50)
+        lg.add_variable('stateEstimate.z', 'float')
+        scf.cf.log.add_config(lg)
+        lg.data_received_cb.add_callback(on_height_log)
+        log_start_time = time.monotonic()
+        lg.start()
+        height_log_config = lg
+        print("[LOG] Logging hauteur active (stateEstimate.z)")
+    except Exception as e:
+        print(f"[LOG] Impossible d'activer le logging hauteur: {e}")
+        height_log_config = None
+
+
+def save_height_log() -> None:
+    """Sauvegarde les donnees hauteur/temps/Kp dans un CSV."""
+    if not height_log:
+        print("[LOG] Aucune donnee hauteur a sauvegarder")
+        return
+
+    log_dir = os.path.join(os.getcwd(), "flight_logs")
+    os.makedirs(log_dir, exist_ok=True)
+    ts = time.strftime("%Y%m%d_%H%M%S")
+    out_path = os.path.join(log_dir, f"height_vs_time_{ts}.csv")
+    with open(out_path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["time_s", "height_m", "kp"])
+        writer.writerows(height_log)
+    print(f"[LOG] Donnees hauteur sauvegardees: {out_path}")
 
 # --------- Fonctions pour chaque bouton de la manette ---------
 
@@ -162,6 +216,23 @@ def on_triangle(pressed: bool) -> None:
 
 def on_l1(pressed: bool) -> None:
     print(f"[PS4] L1 {'PRESSE' if pressed else 'RELACHE'}")
+    global sequence_thread, sequence_running, motion_commander, stop_requested, armed, sync_cf
+    if pressed:
+        if sequence_running:
+            stop_requested = True
+            return
+        if not armed:
+            print("[PS4] Drone non arme (R1 pour armer)")
+            return
+        if sync_cf is None:
+            print("[SEQ] SyncCrazyflie non initialise")
+            return
+        if motion_commander is None:
+            motion_commander = MotionCommander(sync_cf)
+
+        print("[SEQ] Lancement de la sequence L1...")
+        sequence_thread = threading.Thread(target=run_r2_sequence, daemon=True)
+        sequence_thread.start()
 
 
 def on_r1(pressed: bool) -> None:
@@ -435,6 +506,90 @@ def run_flight_sequence() -> None:
         sequence_running = False
 
 
+def run_r2_sequence() -> None:
+    """Sequence R2: decollage, aller/retour 1 m avec demi-tours, puis atterrissage."""
+    global sequence_running, stop_requested, motion_commander, joystick_control, current_velocity_x, current_velocity_y, current_velocity_yaw
+
+    if motion_commander is None:
+        print("[SEQ] Aucun motion_commander actif")
+        return
+
+    sequence_running = True
+    stop_requested = False
+
+    # Arret des mouvements du joystick et stabilisation du drone
+    print("[SEQ] Arret des mouvements et stabilisation...")
+    try:
+        motion_commander.stop()
+        current_velocity_x = 0.0
+        current_velocity_y = 0.0
+        current_velocity_yaw = 0.0
+    except Exception as e:
+        print(f"[SEQ] Erreur lors de l'arret: {e}")
+
+    print("[SEQ] Debut de la sequence R2...")
+    joystick_control = True
+
+    try:
+        print("[SEQ] Decollage a 0.3 m...")
+        motion_commander.take_off(height=0.3)
+        motion_commander.stop()
+        if stop_requested:
+            motion_commander.stop()
+            sequence_running = False
+            return
+
+        time.sleep(0.5)
+
+        print("[SEQ] Avance de 0.5 m...")
+        motion_commander.forward(0.5)
+        if stop_requested:
+            motion_commander.stop()
+            sequence_running = False
+            return
+
+        time.sleep(0.3)
+
+        print("[SEQ] Demi-tour (180 deg)...")
+        motion_commander.turn_right(180)
+        if stop_requested:
+            motion_commander.stop()
+            sequence_running = False
+            return
+
+        time.sleep(0.3)
+
+        print("[SEQ] Retour au point initial 0.5...")
+        motion_commander.forward(0.5)
+        if stop_requested:
+            motion_commander.stop()
+            sequence_running = False
+            return
+
+        time.sleep(0.3)
+
+        print("[SEQ] Demi-tour (180 deg) pour revenir a l'orientation initiale...")
+        motion_commander.turn_right(180)
+        if stop_requested:
+            motion_commander.stop()
+            sequence_running = False
+            return
+
+        time.sleep(0.3)
+
+        print("[SEQ] Atterrissage...")
+        motion_commander.stop()
+        motion_commander.land(velocity=0.2)
+        joystick_control = False
+
+        print("[SEQ] Sequence L1 terminee")
+
+    except Exception as e:
+        print(f"[SEQ] Erreur pendant la sequence L1: {e}")
+    finally:
+        sequence_running = False
+
+
 def run_auto_sequence() -> None:
     global sequence_running, stop_requested, motion_commander, sync_cf
 
@@ -509,6 +664,7 @@ if __name__ == '__main__':
         # Initialiser le gain PID de position
         time.sleep(1)  # Attendre que la connexion soit stable
         set_position_gain()
+        setup_height_logging(sync_cf)
 
         clock = pygame.time.Clock()
 
@@ -545,5 +701,12 @@ if __name__ == '__main__':
 
         if sequence_thread is not None and sequence_thread.is_alive():
             sequence_thread.join()
+
+        if height_log_config is not None:
+            try:
+                height_log_config.stop()
+            except Exception:
+                pass
+        save_height_log()
 
     pygame.quit()

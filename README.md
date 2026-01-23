@@ -2,6 +2,14 @@
 
 Ce guide montre, de facon concrete, l'effet des gains du PID. On commence par l'observer en simulation avec CrazySim, puis on reproduit la meme sequence en reel avec le drone. L'objectif est simple : voir comment le Kp influence la stabilite verticale, d'abord en environnement controle, puis en conditions reelles.
 
+## Vue d'ensemble des taches
+1. Lancer le simulateur (CrazySim) et se connecter avec cfclient.
+2. Tester les commandes de base en simulation.
+3. Connecter le drone reel via cfclient et verifier la manette.
+4. Lancer le script Python et executer les sequences.
+5. Ajuster Kp avec le D-Pad et observer la stabilite.
+6. Sauvegarder le CSV et generer les courbes (PNG).
+
 ## Partie 1 : CrazySim
 
 Objectif : observer sans risque l'effet du Kp sur la stabilite en hauteur. Le simulateur sert de reference avant les tests reels.
@@ -111,15 +119,35 @@ Objectif : automatiser une sequence courte pour comparer rapidement Kp faible, m
 2. Active l'environnement Python si besoin.
 3. Lance le script Python :
    ```bash
-   python controle_python_crazyflie/vol.py
+   python3 controle_python_crazyflie/vol.py
    ```
 
 ### 2) Commandes manette (script Python)
-- Croix : decollage a 0.3 m et stationnaire.
-- Triangle : lance la sequence (monte a 0.7 m, revient a 0.3 m).
-- Cercle : atterrissage doux.
-- D-Pad haut/bas : augmente/diminue le Kp (min 0.5, max 10).
--Joystick gauche : mouvements du drone
+Remarque : le mapping peut varier selon la manette et le systeme (PS4, Logitech, Linux/macOS).
+Le script affiche un mapping au demarrage si besoin.
+
+| Touche | Action |
+| --- | --- |
+| Croix | Decollage a 0.3 m et stationnaire (active le controle joystick). |
+| Triangle | Lance la sequence (monte a 0.7 m, revient a 0.3 m). |
+| Cercle | Atterrissage doux (desactive le controle joystick). |
+| Carre | Atterrissage puis fermeture du script. |
+| L1 | Sequence auto (decollage 0.3 m, avance 0.5 m, demi-tour, retour 0.5 m, demi-tour, atterrissage). |
+| R1 | Armer / desarmer le drone. |
+| L2 (clic) | Aucune action (log uniquement). |
+| R2 (clic) | Aucune action (log uniquement). |
+| Share | Aucune action (log uniquement). |
+| Options | Aucune action (log uniquement). |
+| PS | Aucune action (log uniquement). |
+| Touchpad | Aucune action (log uniquement). |
+| Clic stick gauche | Aucune action (log uniquement). |
+| Clic stick droit | Aucune action (log uniquement). |
+| D-Pad haut | Augmente le Kp (min 0.5, max 10). |
+| D-Pad bas | Diminue le Kp (min 0.5, max 10). |
+| D-Pad gauche | Aucune action. |
+| D-Pad droite | Aucune action. |
+| Joystick gauche | Mouvements horizontaux (X/Y). |
+| Joystick droit | Non utilise (rotation desactivee). |
 
 Image manette :
 
@@ -134,6 +162,27 @@ Valeurs testées :
 -  Kp normal (5).
 
 [![Video test PID drone](video_drone_thumb.png)](video_drone.mp4)
+
+### 4) Logs et courbes (CSV/PNG)
+Le script enregistre la hauteur en fonction du temps et du Kp. Le CSV est cree a la fin du script
+(sortie propre, bouton Carre) dans `flight_logs/height_vs_time_YYYYMMDD_HHMMSS.csv`.
+
+Tracer une courbe (un CSV) :
+```bash
+python3 controle_python_crazyflie/plot_k_height.py flight_logs/height_vs_time_YYYYMMDD_HHMMSS.csv
+```
+Tracer plusieurs CSV en images separees (par defaut) :
+
+```bash
+python3 controle_python_crazyflie/plot_k_height.py flight_logs/height_vs_time_*.csv
+```
+
+Tracer plusieurs CSV sur une seule image :
+```bash
+python3 controle_python_crazyflie/plot_k_height.py flight_logs/height_vs_time_*.csv --combine
+```
+
+Les images sont sauvegardees dans `flight_logs/plots/`.
 
 ---
 
