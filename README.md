@@ -158,7 +158,7 @@ Sequence 2 (bouton L1) : decollage a 0.3 m, avance de 0.5 m, demi-tour 180 deg,
 retour de 0.5 m, demi-tour pour reprendre l'orientation initiale, puis atterrissage.
 Le controle joystick est suspendu pendant la sequence.
 
-![sequence2](sequence2.mp4)
+https://github.com/user-attachments/assets/5f72a65c-38d6-40a5-bcae-7168a57ea5e6
 
 ### 3) Observer l'effet de Kp sur l'axe Z
 Utilise Triangle pour repeter la sequence et comparer la stabilité.
