@@ -1,6 +1,6 @@
 # Tutoriel d'utilisation
 
-Ce guide montre, de facon concrete, l'effet des gains du PID. On commence par l'observer en simulation avec CrazySim, puis on reproduit la meme sequence en reel avec le drone. L'objectif est simple : voir comment le Kp influence la stabilite verticale, d'abord en environnement controle, puis en conditions reelles.
+Ce guide montre, de facon concrete, l'effet des gains du PID. On commence par l'observer en simulation avec CrazySim, puis on reproduit la meme sequence en reel avec le drone. L'objectif est de voir comment le Kp influence la stabilite verticale, d'abord en environnement controle, puis en conditions reelles.
 
 ## Vue d'ensemble des taches
 1. Lancer le simulateur (CrazySim) et se connecter avec cfclient.
@@ -55,8 +55,7 @@ Image PID :
 ![PID CrazySim](CrazySim/PID_position.png)
 
 Video de demonstration PID :
-
-https://github.com/gtfactslab/Llanes_ICRA2024/assets/40842920/b865127c-1b0d-4f49-941d-e57aecda9a54
+[Voir la video du test du PID sur le drone en simulation](CrazySim/crazysim_video.mp4)
 
 ---
 
@@ -74,18 +73,18 @@ Objectif : reproduire les memes reglages sur le drone physique et valider les se
 ### 2) Identifier le materiel
 Crazyradio PA :
 
-![Crazyradio PA](controle_cfclient_crazyflie/crazyradioPA.jpeg)
+![Crazyradio PA](controle_python_crazyflie/controle_cfclient_crazyflie/crazyradioPA.jpeg)
 
 Drone Crazyflie :
 
-![Drone Crazyflie](controle_cfclient_crazyflie/drone_crazyflie.jpeg)
+![Drone Crazyflie](controle_python_crazyflie/controle_cfclient_crazyflie/drone_crazyflie.jpeg)
 
 ### 3) Se connecter au drone via radio
 1. Dans cfclient, clique sur Scan.
 2. Selectionne l'URI radio detecté.
 3. Clique sur Connect.
 
-![Connexion radio](controle_cfclient_crazyflie/connexion_radio.png)
+![Connexion radio](controle_python_crazyflie/controle_cfclient_crazyflie/connexion_radio.png)
 
 ### 4) Choisir la configuration de manette (profil)
 1. Ouvre la configuration des inputs (joystick).
@@ -151,7 +150,7 @@ Le script affiche un mapping au demarrage si besoin.
 
 Image manette :
 
-![Manette](controle_cfclient_crazyflie/manette.png)
+![Manette](controle_python_crazyflie/controle_cfclient_crazyflie/manette.png)
 
 ### 3) Observer l'effet de Kp sur l'axe Z
 Utilise Triangle pour repeter la sequence et comparer la stabilité.
@@ -161,7 +160,8 @@ Valeurs testées :
 -  Kp maximal (10).
 -  Kp normal (5).
 
-[![Video test PID drone](video_drone_thumb.png)](video_drone.mp4)
+Voir la video du test du PID sur le drone :
+[video_drone.mp4](video_drone.mp4)
 
 ### 4) Logs et courbes (CSV/PNG)
 Le script enregistre la hauteur en fonction du temps et du Kp. Le CSV est cree a la fin du script
