@@ -55,7 +55,8 @@ Image PID :
 ![PID CrazySim](CrazySim/PID_position.png)
 
 Video de demonstration PID :
-[Voir la video du test du PID sur le drone en simulation](CrazySim/crazysim_video.mp4)
+
+https://github.com/user-attachments/assets/82c20c6d-2d48-4feb-b318-7accf0861831
 
 ---
 
