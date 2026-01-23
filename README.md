@@ -174,9 +174,9 @@ Sequence 1 (bouton Triangle) : decollage a 0.3 m, montee a 0.7 m,
 retour a 0.3 m puis stationnaire. Le controle joystick est suspendu
 pendant la sequence.
 
-[video_drone.mp4](video_drone.mp4)
+[video_drone.mp4]((https://github.com/user-attachments/assets/59a65315-ffc7-4fc4-8205-720f6ee32596))
 
-https://github.com/user-attachments/assets/59a65315-ffc7-4fc4-8205-720f6ee32596
+
 
 ### 4) Logs et courbes (CSV/PNG)
 Le script enregistre la hauteur en fonction du temps et du Kp. Le CSV est cree a la fin du script
