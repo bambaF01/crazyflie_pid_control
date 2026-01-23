@@ -152,6 +152,14 @@ Image manette :
 
 ![Manette](controle_python_crazyflie/controle_cfclient_crazyflie/manette.png)
 
+sequence 2 :
+
+Sequence 2 (bouton L1) : decollage a 0.3 m, avance de 0.5 m, demi-tour 180 deg,
+retour de 0.5 m, demi-tour pour reprendre l'orientation initiale, puis atterrissage.
+Le controle joystick est suspendu pendant la sequence.
+
+![sequence2](sequence2.mp4)
+
 ### 3) Observer l'effet de Kp sur l'axe Z
 Utilise Triangle pour repeter la sequence et comparer la stabilité.
 
@@ -160,7 +168,12 @@ Valeurs testées :
 -  Kp maximal (10).
 -  Kp normal (5).
 
-Voir la video du test du PID sur le drone(sequence 1) :
+sequence 1 :
+
+Sequence 1 (bouton Triangle) : decollage a 0.3 m, montee a 0.7 m,
+retour a 0.3 m puis stationnaire. Le controle joystick est suspendu
+pendant la sequence.
+
 [video_drone.mp4](video_drone.mp4)
 
 ### 4) Logs et courbes (CSV/PNG)
