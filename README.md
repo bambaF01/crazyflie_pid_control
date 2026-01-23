@@ -184,6 +184,12 @@ python3 controle_python_crazyflie/plot_k_height.py flight_logs/height_vs_time_*.
 
 Les images sont sauvegardees dans `flight_logs/plots/`.
 
+Courbes generees (exemples) :
+
+![Courbe Kp 1](flight_logs/plots/height_vs_time_20260123_014358.png)
+![Courbe Kp 5](flight_logs/plots/height_vs_time_20260123_014606.png)
+![Courbe Kp 10](flight_logs/plots/height_vs_time_20260123_014833.png)
+
 ---
 
 ## Synthese finale : effet du Kp sur l'axe Z
