@@ -176,6 +176,8 @@ pendant la sequence.
 
 [video_drone.mp4](video_drone.mp4)
 
+https://github.com/user-attachments/assets/59a65315-ffc7-4fc4-8205-720f6ee32596
+
 ### 4) Logs et courbes (CSV/PNG)
 Le script enregistre la hauteur en fonction du temps et du Kp. Le CSV est cree a la fin du script
 (sortie propre, bouton Carre) dans `flight_logs/height_vs_time_YYYYMMDD_HHMMSS.csv`.
